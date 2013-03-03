@@ -21,6 +21,7 @@
    "prereqs" : {
       "build" : {
          "requires" : {
+            "JSON" : "2.53",
             "Test::More" : "0.98",
             "Test::Requires" : "0"
          }
@@ -42,7 +43,7 @@
    "provides" : {
       "Module::Build::Pluggable::CPANfile" : {
          "file" : "lib/Module/Build/Pluggable/CPANfile.pm",
-         "version" : "0.01"
+         "version" : "0.02"
       }
    },
    "release_status" : "stable",
@@ -51,5 +52,5 @@
          "http://dev.perl.org/licenses/"
       ]
    },
-   "version" : "0.01"
+   "version" : "0.02"
 }

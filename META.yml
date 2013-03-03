@@ -3,6 +3,7 @@ abstract: 'Include cpanfile'
 author:
   - 'Masahiro Nagano E<lt>kazeburo@gmail.comE<gt>'
 build_requires:
+  JSON: 2.53
   Test::More: 0.98
   Test::Requires: 0
 configure_requires:
@@ -20,7 +21,7 @@ no_index:
 provides:
   Module::Build::Pluggable::CPANfile:
     file: lib/Module/Build/Pluggable/CPANfile.pm
-    version: 0.01
+    version: 0.02
 requires:
   Module::Build::Pluggable: 0.05
   Module::CPANfile: 0.9010
@@ -28,4 +29,4 @@ requires:
   perl: 5.008005
 resources:
   license: http://dev.perl.org/licenses/
-version: 0.01
+version: 0.02
