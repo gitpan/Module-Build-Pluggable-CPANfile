@@ -4,7 +4,12 @@ use utf8;
 use Test::More;
 use Test::Module::Build::Pluggable;
 use Module::Build::Pluggable::CPANfile;
-use JSON;
+use version;
+use Capture::Tiny ':all';
+
+require Module::Build;
+my $support_test_requries = 
+    ( version->parse($Module::Build::VERSION) >= version->parse('0.4004') ) ? 1 : 0;
 
 my $test = Test::Module::Build::Pluggable->new();
 $test->write_file('Build.PL', <<'...');
@@ -12,7 +17,6 @@ use strict;
 use Module::Build::Pluggable (
     'CPANfile',
 );
-
 my $builder = Module::Build::Pluggable->new(
     dist_name => 'Eg',
     dist_version => 0.01,
@@ -29,37 +33,44 @@ $builder->create_build_script();
 
 $test->write_file('cpanfile', <<'...');
 requires 'LWP::UserAgent' => '6.02';
-requires 'HTTP::Message'  => '6.04'; 
+requires 'HTTP::Message'  => '6.04';
+suggests 'JSON' => '2.53';
 on 'test' => sub {
    requires 'Test::More'     => '0.98';
    requires 'Test::Requires' => '0.06';
 };
 ...
+$test->write_file('MANIFEST', <<'...');
+Build.PL
+MANIFEST
+...
 
-$test->run_build_pl();
-my $meta = $test->read_file('MYMETA.json');
+my $stderr = capture_stderr { $test->run_build_pl() };
+like $stderr, qr/not support 'suggests'/;
+my $meta = $test->read_file('_build/prereqs');
 ok($meta);
-my $spec = decode_json($meta);
+my $prereqs = eval $meta;
 
-is_deeply( $spec->{prereqs}{build}, {
-    requires => {
+is_deeply( $prereqs->{build_requires}, $support_test_requries ? {
+        'Module::Build::Pluggable::CPANfile' => $Module::Build::Pluggable::CPANfile::VERSION,
+    } : {
         'Test::More'     => '0.98',
         'Test::Requires' => '0.06',
         'Module::Build::Pluggable::CPANfile' => $Module::Build::Pluggable::CPANfile::VERSION,
     }
-});
+);
 
-is_deeply( $spec->{prereqs}{configure}, {
-    requires => {
-        'Module::Build::Pluggable::CPANfile' => $Module::Build::Pluggable::CPANfile::VERSION,
-    }
-});
+SKIP : {
+    skip "You have Module::Build < 0.4004",1 if !$support_test_requries;
+    is_deeply( $prereqs->{test_requires}, {
+        'Test::More'     => '0.98',
+        'Test::Requires' => '0.06',
+    });
+}
 
-is_deeply( $spec->{prereqs}{runtime}, {
-    requires => {
-        'LWP::UserAgent' => '6.02',
-        'HTTP::Message'  => '6.04', 
-    }
+is_deeply( $prereqs->{requires}, {
+    'LWP::UserAgent' => '6.02',
+    'HTTP::Message'  => '6.04', 
 });
 
 done_testing();

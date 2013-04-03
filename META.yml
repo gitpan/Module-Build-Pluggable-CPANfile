@@ -3,13 +3,13 @@ abstract: 'Include cpanfile'
 author:
   - 'Masahiro Nagano E<lt>kazeburo@gmail.comE<gt>'
 build_requires:
-  JSON: 2.53
+  Capture::Tiny: 0.21
   Test::More: 0.98
   Test::Requires: 0
 configure_requires:
   Module::Build: 0.38
 dynamic_config: 0
-generated_by: 'Module::Build version 0.4003, CPAN::Meta::Converter version 2.120921'
+generated_by: 'Module::Build version 0.4004, CPAN::Meta::Converter version 2.130880'
 license: perl
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
@@ -21,12 +21,14 @@ no_index:
 provides:
   Module::Build::Pluggable::CPANfile:
     file: lib/Module/Build/Pluggable/CPANfile.pm
-    version: 0.02
+    version: 0.03
 requires:
+  List::Util: 1.14
   Module::Build::Pluggable: 0.05
   Module::CPANfile: 0.9010
   parent: 0
   perl: 5.008005
+  version: 0.99
 resources:
   license: http://dev.perl.org/licenses/
-version: 0.02
+version: 0.03
