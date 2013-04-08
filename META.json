@@ -45,7 +45,7 @@
    "provides" : {
       "Module::Build::Pluggable::CPANfile" : {
          "file" : "lib/Module/Build/Pluggable/CPANfile.pm",
-         "version" : "0.03"
+         "version" : "0.04"
       }
    },
    "release_status" : "stable",
@@ -54,5 +54,5 @@
          "http://dev.perl.org/licenses/"
       ]
    },
-   "version" : "0.03"
+   "version" : "0.04"
 }

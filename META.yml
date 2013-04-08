@@ -21,7 +21,7 @@ no_index:
 provides:
   Module::Build::Pluggable::CPANfile:
     file: lib/Module/Build/Pluggable/CPANfile.pm
-    version: 0.03
+    version: 0.04
 requires:
   List::Util: 1.14
   Module::Build::Pluggable: 0.05
@@ -31,4 +31,4 @@ requires:
   version: 0.99
 resources:
   license: http://dev.perl.org/licenses/
-version: 0.03
+version: 0.04
